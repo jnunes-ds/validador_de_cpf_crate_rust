@@ -64,6 +64,27 @@ pub mod validator {
 
     }
 
+    /// Validates a Brazilian CNPJ (Cadastro Nacional da Pessoa Jurídica) number.
+    ///
+    /// This function performs sanitization by ignoring non-digit characters, checks for
+    /// invalid sequences (like all identical digits), and implements the official
+    /// two-digit checksum algorithm for CNPJs.
+    ///
+    /// # Arguments
+    ///
+    /// * `cnpj` - A string slice that holds the CNPJ (can be formatted or only digits).
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use validador_de_cpf::validator;
+    ///
+    /// let valid = validator::cnpj("11.222.333/0001-81");
+    /// assert!(valid);
+    ///
+    /// let invalid = validator::cnpj("11.111.111/1111-11");
+    /// assert!(!invalid);
+    ///
     pub fn cnpj(cnpj: &str) -> bool {
         let cnpj: Vec<u32> = cnpj
             .chars()
@@ -183,6 +204,23 @@ pub mod formatter {
 
     }
 
+    /// Formats a string into a CNPJ pattern (00.000.000/0000-00).
+    ///
+    /// If the input string does not contain exactly 14 digits after sanitization,
+    /// it returns the original string.
+    ///
+    /// # Arguments
+    ///
+    /// * `cnpj` - A string slice that holds the CNPJ digits.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use validador_de_cpf::formatter;
+    ///
+    /// let formatted = formatter::cnpj("11222333000181");
+    /// assert_eq!(formatted, "11.222.333/0001-81");
+    ///
     pub fn cnpj<'a>(cnpj: &'a str) -> &'a str {
         let digits: String = cnpj.chars().filter(|c| c.is_ascii_digit()).collect();
 
