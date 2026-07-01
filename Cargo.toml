@@ -2,5 +2,11 @@
 name = "validador_de_cpf"
 version = "0.1.0"
 edition = "2024"
+authors = ["Denison Nunes <denisonprobable13@gmail.com>"]
+description = "A simple and efficient Rust library for validating Brazilian CPF (Cadastro de Pessoas Físicas) numbers."
+license = "Free"
+repository = "https://github.com/jnunes-ds/validador_de_cpf_crate_rust"
+documentation = "https://github.com/jnunes-ds/validador_de_cpf_crate_rust/blob/master/README.md"
+homepage = "https://github.com/jnunes-ds/validador_de_cpf_crate_rust"
 
 [dependencies]
