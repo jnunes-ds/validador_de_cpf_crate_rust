@@ -71,14 +71,23 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_invalid_cpf() {
-        assert!(!validar_cpf("11111111111"));
-
+    fn test_invalid_cpf_with_symbols() {
+        assert!(!validar_cpf("543.645.626-54"));
     }
 
     #[test]
-    fn test_valid_cpf() {
-        assert!(validar_cpf("12345678909"));
+    fn test_invalid_cpf_without_symbols() {
+        assert!(!validar_cpf("54364562654"));
+    }
+
+    #[test]
+    fn test_valid_cpf_with_symbols() {
+        assert!(validar_cpf("035.711.250-45"));
+    }
+
+    #[test]
+    fn test_valid_cpf_without_symbols() {
+        assert!(validar_cpf("03571125045"));
     }
 
 }
