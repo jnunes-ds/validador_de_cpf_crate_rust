@@ -145,7 +145,7 @@ pub fn format_cpf<'a>(cpf: &'a str) -> &'a str {
 /// let invalid = validate_cpf("111.111.111-11");
 /// assert!(!invalid);
 /// ```
-#[deprecated(since = "1.0.0", note = "please use `validar_cpf` instead")]
+#[deprecated(since = "1.0.0", note = "please use `validate_cpf` instead")]
 pub fn validar_cpf(cpf: &str) -> bool {
     // Converts the input string (`&str`) into a character iterator using `chars()`,
     // filters only the characters that are numeric digits via `is_ascii_digit()`,
