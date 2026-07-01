@@ -1,4 +1,26 @@
-pub fn validar_cpf(cpf: &str) -> bool {
+
+/// Validates a Brazilian CPF (Cadastro de Pessoas Físicas) number.
+///
+/// This function performs sanitization by ignoring non-digit characters, checks for 
+/// invalid sequences (like all identical digits), and implements the official 
+/// two-digit checksum algorithm.
+///
+/// # Arguments
+///
+/// * `cpf` - A string slice that holds the CPF (can be formatted or only digits).
+///
+/// # Examples
+///
+/// ```rust
+/// use validador_de_cpf::validate_cpf;
+///
+/// let valid = validate_cpf("123.456.789-09");
+/// assert!(valid);
+///
+/// let invalid = validate_cpf("111.111.111-11");
+/// assert!(!invalid);
+/// ```
+pub fn validate_cpf(cpf: &str) -> bool {
     // Converts the input string (`&str`) into a character iterator using `chars()`,
     // filters only the characters that are numeric digits via `is_ascii_digit()`,
     // converts each validated character to a base 10 integer (`to_digit(10)`),
@@ -66,28 +88,78 @@ pub fn validar_cpf(cpf: &str) -> bool {
 
 }
 
+/// Formats a string into a CPF pattern (000.000.000-00).
+///
+/// If the input string does not contain exactly 11 digits after sanitization,
+/// it returns the original string.
+///
+/// # Arguments
+///
+/// * `cpf` - A string slice that holds the CPF digits.
+///
+/// # Examples
+///
+/// ```rust
+/// use validador_de_cpf::format_cpf;
+///
+/// let formatted = format_cpf("12345678909");
+/// assert_eq!(formatted, "123.456.789-09");
+///```
+/// 
+pub fn format_cpf<'a>(cpf: &'a str) -> &'a str {
+    let digits: String = cpf.chars().filter(|c| c.is_ascii_digit()).collect();
+
+    if digits.len() != 11 {
+        return cpf;
+    }
+
+    format!(
+        "{}.{}.{}-{}",
+        &digits[0..3],
+        &digits[3..6],
+        &digits[6..9],
+        &digits[9..11]
+    )
+    .leak()
+
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_invalid_cpf_with_symbols() {
-        assert!(!validar_cpf("543.645.626-54"));
+        assert!(!validate_cpf("543.645.626-54"));
     }
 
     #[test]
     fn test_invalid_cpf_without_symbols() {
-        assert!(!validar_cpf("54364562654"));
+        assert!(!validate_cpf("54364562654"));
     }
 
     #[test]
     fn test_valid_cpf_with_symbols() {
-        assert!(validar_cpf("035.711.250-45"));
+        assert!(validate_cpf("035.711.250-45"));
     }
 
     #[test]
     fn test_valid_cpf_without_symbols() {
-        assert!(validar_cpf("03571125045"));
+        assert!(validate_cpf("03571125045"));
     }
 
+    #[test]
+    fn test_format_cpf_with_symbols() {
+        assert_eq!(format_cpf("035.711.250-45"), "035.711.250-45");
+    }
+
+    #[test]
+    fn test_format_cpf_without_symbols() {
+        assert_eq!(format_cpf("03571125045"), "035.711.250-45");
+    }
+
+    #[test]
+    fn test_format_cpf_with_invalid_chars() {
+        assert_eq!(format_cpf("fsdr325432432"), "fsdr325432432");
+    }
 }
