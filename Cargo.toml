@@ -1,6 +1,6 @@
 [package]
 name = "validador_de_cpf"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
 authors = ["Denison Nunes <denisonprobable13@gmail.com>"]
 description = "A simple and efficient Rust library for validating Brazilian CPF (Cadastro de Pessoas Físicas) numbers."
